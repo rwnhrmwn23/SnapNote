@@ -42,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.7"
@@ -63,6 +64,9 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
+    implementation(libs.accompanist.appcompat.theme)
+    implementation(libs.accompanist.swiperefresh)
     implementation(libs.timber)
 
     debugImplementation(libs.ui.tooling)
