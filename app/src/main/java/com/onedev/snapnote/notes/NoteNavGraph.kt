@@ -18,7 +18,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import androidx.navigation.navArgument
 import com.onedev.snapnote.R
+import com.onedev.snapnote.notes.NoteDestinationArgs.NOTE_ID_ARG
+import com.onedev.snapnote.notes.NoteDestinationArgs.TITLE_ARG
 import com.onedev.snapnote.notes.NoteDestinationArgs.USER_MESSAGE_ARGS
+import com.onedev.snapnote.notes.screen.addeditnote.AddEditNoteScreen
 import com.onedev.snapnote.notes.screen.notes.NotesScreen
 import com.onedev.snapnote.notes.utils.AppModalDrawer
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +42,7 @@ fun NoteNavGraph(
     val currentRoute = currentBackStackEntry?.destination?.route ?: startDestination
 
     val navGraph = navHostController.createGraph(startDestination = startDestination) {
+        // Note Screen
         composable(
             NoteDestinations.NOTES_ROUTE,
             arguments = listOf(
@@ -63,6 +67,24 @@ fun NoteNavGraph(
                     },
                     openDrawer = { coroutineScope.launch { drawerState.open() } })
             }
+        }
+        // Add Edit Note Screen
+        composable(
+            NoteDestinations.ADD_EDIT_NOTES_ROUTE,
+            arguments = listOf(
+                navArgument(TITLE_ARG) { type = NavType.IntType },
+                navArgument(NOTE_ID_ARG) { type = NavType.StringType; nullable = true }
+            )
+        ) { entry ->
+            val noteId = entry.arguments?.getString(NOTE_ID_ARG)
+            AddEditNoteScreen(
+                topAppBarTitle = entry.arguments?.getInt(TITLE_ARG)!!,
+                onNoteUpdate = {
+                    navActions.navigationToNotes(
+                        if (noteId == null) ADD_EDIT_RESULT_OK else EDIT_RESULT_OK
+                    )
+                },
+                onBack = { navHostController.popBackStack() })
         }
     }
 
