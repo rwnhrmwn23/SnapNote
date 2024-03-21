@@ -22,6 +22,7 @@ import com.onedev.snapnote.notes.NoteDestinationArgs.NOTE_ID_ARG
 import com.onedev.snapnote.notes.NoteDestinationArgs.TITLE_ARG
 import com.onedev.snapnote.notes.NoteDestinationArgs.USER_MESSAGE_ARGS
 import com.onedev.snapnote.notes.screen.addeditnote.AddEditNoteScreen
+import com.onedev.snapnote.notes.screen.notedetail.NoteDetailScreen
 import com.onedev.snapnote.notes.screen.notes.NotesScreen
 import com.onedev.snapnote.notes.utils.AppModalDrawer
 import kotlinx.coroutines.CoroutineScope
@@ -85,6 +86,15 @@ fun NoteNavGraph(
                     )
                 },
                 onBack = { navHostController.popBackStack() })
+        }
+
+        composable(NoteDestinations.NOTES_DETAIL_ROUTE) { entry ->
+            NoteDetailScreen(
+                onEditNote = { noteId ->
+                    navActions.navigationToAddEditNote(R.string.edit_note, noteId)
+                },
+                onBack = { navHostController.popBackStack() },
+                onDeleteNote = { navActions.navigationToNotes(DELETE_RESULT_OK) })
         }
     }
 
