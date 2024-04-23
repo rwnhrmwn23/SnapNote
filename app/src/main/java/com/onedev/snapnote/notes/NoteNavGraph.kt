@@ -24,6 +24,7 @@ import com.onedev.snapnote.notes.NoteDestinationArgs.USER_MESSAGE_ARGS
 import com.onedev.snapnote.notes.screen.addeditnote.AddEditNoteScreen
 import com.onedev.snapnote.notes.screen.notedetail.NoteDetailScreen
 import com.onedev.snapnote.notes.screen.notes.NotesScreen
+import com.onedev.snapnote.notes.screen.statistics.StatisticScreen
 import com.onedev.snapnote.notes.utils.AppModalDrawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -95,6 +96,14 @@ fun NoteNavGraph(
                 },
                 onBack = { navHostController.popBackStack() },
                 onDeleteNote = { navActions.navigationToNotes(DELETE_RESULT_OK) })
+        }
+
+        composable(NoteDestinations.STATISTICS_ROUTE) {
+            AppModalDrawer(drawerState, currentRoute, navActions) {
+                StatisticScreen(
+                    openDrawer = { coroutineScope.launch { drawerState.open() } }
+                )
+            }
         }
     }
 
